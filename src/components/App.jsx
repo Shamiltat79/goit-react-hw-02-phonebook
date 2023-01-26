@@ -5,10 +5,6 @@ import { nanoid } from 'nanoid';
 
 
 
-
-
-
-
 const Container = styled.div`
   width: 400px;
   text-align: center;
@@ -51,6 +47,11 @@ const Contacts = styled.ul`
   font-weight: 700;
 
 `
+const ContactItem = styled.li`
+  margin-top: 10px;
+  margin-bottom: 10px;
+`
+
 
 export class App extends Component {
   
@@ -62,24 +63,26 @@ export class App extends Component {
     name: '',
     number: '',
   }
+ 
 
-  handleChange = event => {
-    const { name, value } = event.target;
-    this.setState({
+handleChange = event => {
+  const { name, value } = event.target;
+  this.setState({
      
-      [name]: value,
+    [name]: value,
       
-    })
-  }
+  })
+};
   
   handleSubmit = evt => {
+     const{ name, number } = this.state;
     evt.preventDefault();
-    console.log(this.state.contacts);
-    this.setState(prevState => {
-       this.state.contacts.push({ name: this.state.name, number: this.state.number })
-    });
+    this.setState(prevState => ({
+      contacts: [{name: name, number: number },...prevState.contacts],
+    }));
     
-     this.reset()
+    
+    this.reset()
    };
    
    
@@ -93,8 +96,8 @@ export class App extends Component {
   
 
   render() {
-    const { name, contacts, number } = this.state;
-    console.log(this.state.contacts);
+    const{ contacts, name, number } = this.state;
+    
     return (
     <Container>
         <Tittle>Phonebook</Tittle>
@@ -125,9 +128,9 @@ export class App extends Component {
   <Button type='submit'>Add contact</Button>
           
         </FormWrapper>
-        <Contacts>
+        <Contacts>Contacts:
           {contacts.map(contact => {
-            return (<li key={this.ContactItemId}>{contact.name}:{contact.number}</li>)
+            return (<ContactItem key={this.ContactItemId}>{contact.name}:{contact.number}</ContactItem>)
          })} 
           
         </Contacts>
