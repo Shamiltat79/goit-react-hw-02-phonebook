@@ -31,7 +31,9 @@ const Button = styled.button`
   margin-top: 15px;
   margin-bottom: 15px;
   font-weight: 600;
-`
+  border-radius: 4px;
+  border-color: #716f6f;`
+
 const Label = styled.label`
    margin-top: 15px;
   margin-bottom: 15px;
