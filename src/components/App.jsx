@@ -88,12 +88,13 @@ export class App extends Component {
         name: '',
         number: '',
       })
-    }
+  }
+  
   
 
   render() {
     const { name, contacts, number } = this.state;
-    
+    console.log(this.state.contacts);
     return (
     <Container>
         <Tittle>Phonebook</Tittle>
