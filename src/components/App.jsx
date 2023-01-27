@@ -7,13 +7,13 @@ import { nanoid } from 'nanoid';
 
 const Container = styled.div`
   width: 400px;
-  text-align: center;
+  text-align: left;
   margin: auto;
   padding: 24px;
   `
 
 const Tittle = styled.h1`
-font-size: 18px;
+font-size: 3  2px;
 font-weight: 700;
 `
 const FormWrapper = styled.form`
@@ -35,6 +35,8 @@ const Button = styled.button`
   border-color: #716f6f;`
 
 const Label = styled.label`
+width: 100%;
+text-align: left;
    margin-top: 15px;
   margin-bottom: 15px;
   font-weight: 600;
@@ -50,6 +52,7 @@ const Contacts = styled.ul`
 
 `
 const ContactItem = styled.li`
+
   margin-top: 10px;
   margin-bottom: 10px;
 `
@@ -60,8 +63,16 @@ export class App extends Component {
   ContactInputId = nanoid();
   NumberInputId = nanoid();
   ContactItemId = nanoid();
+  ContactFilterId = nanoid();
 
-  state = { contacts: [],
+  state = {
+    contacts: [
+    {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
+    ],
+    filter: '',
     name: '',
     number: '',
   }
@@ -85,7 +96,12 @@ handleChange = event => {
     
     
     this.reset()
-   };
+  };
+  
+  handleSubmitSearch = evt => {
+    evt.preventDefault();
+    console.log(this.state.filter)
+  }
    
    
     reset = () => {
@@ -98,7 +114,9 @@ handleChange = event => {
   
 
   render() {
-    const{ contacts, name, number } = this.state;
+    const { contacts, name, number, filter } = this.state;
+    const ContactsByFilter = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
+    
     
     return (
     <Container>
@@ -130,9 +148,20 @@ handleChange = event => {
   <Button type='submit'>Add contact</Button>
           
         </FormWrapper>
-        <Contacts>Contacts:
-          {contacts.map(contact => {
-            return (<ContactItem key={this.ContactItemId}>{contact.name}:{contact.number}</ContactItem>)
+        <Tittle>Contacts</Tittle>
+        <FormWrapper onSubmit={this.handleSubmitSearch}>
+          <Label htmlFor={this.ContactFilterId}>Find contacts by name</Label>
+          <Input
+            id={this.ContactFilterId}
+            name="filter"
+            value={filter}
+            onChange={this.handleChange}
+          />
+          <Button type='submit'>Search</Button>
+        </FormWrapper>
+        <Contacts>
+          {ContactsByFilter.map(contact => {
+            return (<ContactItem key={contact.id}>{contact.name}:   {contact.number}</ContactItem>)
          })} 
           
         </Contacts>
